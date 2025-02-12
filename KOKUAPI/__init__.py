@@ -17,7 +17,7 @@ __version__ = "0.6.5.6"
 __all__ = ["api"]
 
 
-class BadAPI:
+class KOKUAPI:
     
     def __init__(self)->None:
         """Api for various purpose
@@ -57,7 +57,7 @@ class BadAPI:
             json_text = extracted_json.replace('\n', ' ')
 
             data = json.loads(json_text)
-            return {"results":data["text"],"join": "@Mr_Sukkun", "success": True
+            return {"results":data["text"],"join": "@goku_groupz", "success": True
                     }
         except Exception as e:
             return e   

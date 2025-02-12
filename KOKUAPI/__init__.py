@@ -556,4 +556,241 @@ class KOKUAPI:
             dccBadges {
                 timestamp
                 badge {
-         
+                name
+                icon
+                }
+            }
+            submissionCalendar
+            }
+        }
+        }
+        ''',
+        'variables': {'username': username, 'year': 2024}
+    }
+
+        payload_2 = {
+        'operationName': 'userPublicProfile',
+        'query': '''
+        query userPublicProfile($username: String!) {
+        matchedUser(username: $username) {
+            contestBadge {
+            name
+            expired
+            hoverText
+            icon
+            }
+            username
+            githubUrl
+            twitterUrl
+            linkedinUrl
+            profile {
+            ranking
+            userAvatar
+            realName
+            aboutMe
+            school
+            websites
+            countryName
+            company
+            jobTitle
+            skillTags
+            postViewCount
+            postViewCountDiff
+            reputation
+            reputationDiff
+            solutionCount
+            solutionCountDiff
+            categoryDiscussCount
+            categoryDiscussCountDiff
+            }
+        }
+        }
+        ''',
+        'variables': {'username': username}
+    }
+
+        try:
+            response = requests.post(url, json=payload)
+            data_1 = response.json()['data']['matchedUser']
+
+            response = requests.post(url, json=payload_2)
+            data_2 = response.json()['data']['matchedUser']
+
+            output_dict2 = {} 
+            output_dict2.update(data_1)
+            output_dict2.update(data_2)
+            output_dict = {}
+
+            for key, value in output_dict2.items():
+                if isinstance(value, dict):
+                    output_dict[key] = {}
+                    for k, v in value.items():
+                        output_dict[key][k] = v
+                else:
+                    output_dict[key] = value
+            return output_dict
+        except Exception as e:
+            return e
+        
+    
+    @staticmethod
+    def pypi(args):
+        """
+    Retrieve package information from the Python Package Index (PyPI) by providing the package name.
+
+    Args:
+        args (str): The name of the package to search for on PyPI.
+
+    Returns:
+        dict: A dictionary containing information about the specified package, such as name, version, description, author, license, and more.
+
+    Example usage:
+    >>> from BadAPI import api
+    >>> package_info = api.pypi("requests")
+    >>> print(package_info)
+    """
+   
+        n = base64.b64decode("aHR0cHM6Ly9weXBpLm9yZy9weXBpLw==").decode("utf-8")
+        result = requests.get(f"{n}{args}/json").json()["info"]
+        return result
+    
+    
+    @staticmethod
+    def repo(args):
+        """
+    Search GitHub repositories based on the search query provided.
+
+    Args:
+        args (str): The search query to find repositories on GitHub.
+
+    Returns:
+        dict: A dictionary containing search results of GitHub repositories. Each entry includes an index and corresponding repository.
+
+    Example usage:
+    >>> from BadAPI import api
+    >>> search_results = api.repo("BadRobot")
+    >>> print(search_results)
+    """
+        
+        n = base64.b64decode("aHR0cHM6Ly9hcGkuZ2l0aHViLmNvbS9zZWFyY2gvcmVwb3NpdG9yaWVzP3E9"
+            ).decode("utf-8")
+        search_results = requests.get(f"{n}{args}").json()
+        items = search_results.get("items", [])
+        result = []
+        for index, item in enumerate(items, 1):
+            result.append((index, item))
+
+        return {"results": result, "join": "@Mr_Sukkun", "sucess": True}
+    
+    @staticmethod
+    def github(args):
+        """
+    Search GitHub information based on the username query provided.
+
+    Args:
+        args (str): The search query to find information of  GitHub User.
+
+    Returns:
+        dict: A dictionary containing search results of GitHub username .
+
+    Example usage:
+    >>> from BadAPI import api
+    >>> search_results = api.github("Bad")
+    >>> print(search_results)
+    """
+
+        n = base64.b64decode("aHR0cHM6Ly9hcGkuZ2l0aHViLmNvbS91c2Vycy8=").decode("utf-8")
+        result = requests.get(f"{n}{args}").json()
+        url = result["html_url"]
+        name = result["name"]
+        id = result["id"]
+        company = result["company"]
+        bio = result["bio"]
+        pattern = "[a-zA-Z]+"
+        created_at = result["created_at"]
+        created = re.sub(pattern, " ", created_at)
+        updated_at = result["updated_at"]
+        updated = re.sub(pattern, " ", updated_at)
+        avatar_url = f"https://avatars.githubusercontent.com/u/{id}"
+        blog = result["blog"]
+        location = result["location"]
+        repositories = result["public_repos"]
+        followers = result["followers"]
+        following = result["following"]
+        results = {
+            "url": url,
+            "name": name,
+            "id": id,
+            "company": company,
+            "bio": bio,
+            "created at": created,
+            "updated at": updated,
+            "Profile image": avatar_url,
+            "blog": blog,
+            "location": location,
+            "repos": repositories,
+            "followers": followers,
+            "following": following,
+        }
+        return results
+    
+    @staticmethod
+    def meme():
+        """ Fetch  random memes from reddit
+        
+        Returns:
+        
+        dict: A dictionary containing search results of meme
+        
+        Example usage:
+        >>> from BadAPI import api
+        >>> search_results = api.meme()
+        >>> print(search_results)
+        """
+
+        n = base64.b64decode("aHR0cHM6Ly9tZW1lLWFwaS5jb20vZ2ltbWU=").decode("utf-8")
+        res = requests.get(f"{n}").json()
+        title = res["title"]
+        url = res["url"]
+        results = {"title": title, "url": url}
+        return results
+    
+    @staticmethod
+    def weather(city: str):
+        """
+        Retrieves weather data for a specified city using a remote weather API.
+
+        Args:
+            city (str): The name of the city for which weather data is requested.
+
+        Returns:
+            dict: JSON response containing weather data for the specified city.
+
+        Example usage:
+        >>> from BadAPI import api
+        >>> weather_data = api.weather("Bihar")
+        >>> print(weather_data)
+        """
+        url=m("aHR0cHM6Ly93ZWF0aGVyeGFwaS5kZW5vLmRldi93ZWF0aGVyP2NpdHk9").decode("utf-8")
+        results=requests.get(f"{url}{city}")
+        return results.json() 
+
+    @staticmethod
+    def upload_image(image_url=None, image_file=None):
+        """Uploads an image to ImgBB and returns the URL of the uploaded image.
+
+    Args:
+        image_url (str, optional): The URL of the image to upload.
+        image_file (file, optional): The file object of the image to upload.
+
+    Returns:
+        str: The URL of the uploaded image.
+        
+    Example usage:
+        >>> from BadAPI import api
+        >>> upload_image = api.upload_image(image_url="url-of-img.jpg")
+        >>> print(upload_image)
+    """
+
+        if image_url is None and image_file is None:
+            raise ValueError

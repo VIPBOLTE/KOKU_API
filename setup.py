@@ -53,7 +53,7 @@ setup(
     ],
     
     project_urls={
-        "Tracker": "https://github.com/badmunda98/BadAPI/issues",
+        "Tracker": "https://github.com/VIPBOLTE/KOKU_API/issues",
         "Community": "https://t.me/mr_sukkun",
         "Source": "https://github.com/VIPBOLTE/KOKU_API",
     },

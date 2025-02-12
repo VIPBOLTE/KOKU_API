@@ -25,7 +25,7 @@ setup(
     packages=find_packages(),
     license="MIT",
     url="https://github.com/VIPBOLTE/KOKU_API",
-    download_url="https://github.com/VIPBOLTE/KOKU_API.git",
+    download_url="https://github.com/VIPBOLTE/KOKU_API/blob/main/README.md",
     install_requires=["pytz>=2023.3","requests-html","pillow","lxml_html_clean"],
     keywords=['python', "KOKUAPI","flask"],
     classifiers=[

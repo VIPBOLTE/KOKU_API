@@ -24,8 +24,8 @@ setup(
     long_description=long_desc,
     packages=find_packages(),
     license="MIT",
-    url="https://github.com/badmunda98/BadAPI",
-    download_url="https://github.com/badmunda98/BadAPI/blob/main/README.md",
+    url="https://github.com/VIPBOLTE/KOKU_API",
+    download_url="https://github.com/VIPBOLTE/KOKU_API.git",
     install_requires=["pytz>=2023.3","requests-html","pillow","lxml_html_clean"],
     keywords=['python', "KOKUAPI","flask"],
     classifiers=[
@@ -55,7 +55,7 @@ setup(
     project_urls={
         "Tracker": "https://github.com/badmunda98/BadAPI/issues",
         "Community": "https://t.me/mr_sukkun",
-        "Source": "https://github.com/badmunda98/BadAPI",
+        "Source": "https://github.com/VIPBOLTE/KOKU_API",
     },
     python_requires="~=3.7",
 )

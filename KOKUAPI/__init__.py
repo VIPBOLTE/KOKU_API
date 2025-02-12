@@ -539,7 +539,7 @@ class KOKUAPI:
         dict: A dictionary containing user data such as streak, total active days, badges, user profile information, and social media URLs.
 
     Example usage:
-    >>> from BadAPI import api
+    >>> from KOKUAPI import api
     >>> user_data = api.leetcode("Bad")
     >>> print(user_data)"""
         url = base64.b64decode('aHR0cHM6Ly9sZWV0Y29kZS5jb20vZ3JhcGhxbC8=').decode("utf-8")
@@ -667,7 +667,7 @@ class KOKUAPI:
         dict: A dictionary containing search results of GitHub repositories. Each entry includes an index and corresponding repository.
 
     Example usage:
-    >>> from BadAPI import api
+    >>> from KOKUAPI import api
     >>> search_results = api.repo("BadRobot")
     >>> print(search_results)
     """
@@ -694,7 +694,7 @@ class KOKUAPI:
         dict: A dictionary containing search results of GitHub username .
 
     Example usage:
-    >>> from BadAPI import api
+    >>> from KOKUAPI import api
     >>> search_results = api.github("Bad")
     >>> print(search_results)
     """
@@ -787,10 +787,72 @@ class KOKUAPI:
         str: The URL of the uploaded image.
         
     Example usage:
-        >>> from BadAPI import api
+        >>> from KOKUAPI import api
         >>> upload_image = api.upload_image(image_url="url-of-img.jpg")
         >>> print(upload_image)
     """
 
+
         if image_url is None and image_file is None:
-            raise ValueError
+            raise ValueError("Either image_url or image_file must be provided.")
+
+        if image_url is not None:
+            image =image_url
+        else:
+            image = base64.b64encode(image_file.read())
+
+        payload = {'key': "b90a7d977b2aa510ef101de4f4b1876d", 'image': image}
+
+        response = requests.post("https://api.imgbb.com/1/upload", data=payload)
+
+        return response.json()
+    
+    @staticmethod
+    def truth():
+        truth_string=random.choice(TRUTH)
+        return truth_string
+    
+    @staticmethod
+    def dare():
+        dare_string=random.choice(DARE)
+        return dare_string
+    
+    @staticmethod
+    def ai_image(prompt: str) -> bytes:
+        """Generates an AI-generated image based on the provided prompt.
+
+        Args:
+            prompt (str): The input prompt for generating the image.
+
+        Returns:
+            bytes: The generated image in bytes format.
+            
+        Example usage:
+        >>> from KOKUAPI import api
+        >>> generated_image= api.ai_image("boy image")
+        >>> print(generated_image)
+        """
+        url = base64.b64decode('aHR0cHM6Ly9haS1hcGkubWFnaWNzdHVkaW8uY29tL2FwaS9haS1hcnQtZ2VuZXJhdG9y').decode("utf-8")
+
+        form_data = {
+            'prompt': prompt,
+            'output_format': 'bytes',
+            'request_timestamp': str(int(time.time())),
+            'user_is_subscribed': 'false',
+        }
+
+        response = requests.post(url, data=form_data)
+        if response.status_code == 200:
+            try:
+                if response.content:
+                    return response.content
+                else:
+                    raise Exception("Failed to get image from the server.")
+            except Exception as e:
+                raise e
+        else:
+            raise Exception("Error:", response.status_code)
+
+        
+            
+api=KOKUAPI()
